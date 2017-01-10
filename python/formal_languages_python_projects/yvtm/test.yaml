@@ -1,0 +1,21 @@
+# ------- busybeaver3.yvtm ---------------
+tape:    "0"
+start:   one
+blank:   "0"
+accept:  []
+reject:  []
+machine:
+#      current  read     next      write   move
+#      state    symbol   state     symbol  to
+#      -----    ------   --------  -----   -----
+
+    - [ one,     0,       two,      1,      right ]
+    - [ one,     1,       HALT,     1,      right ]
+
+    - [ two,     0,       three,    0,      right ]
+    - [ two,     1,       two,      1,      right ]
+
+    - [ three,   0,       three,    1,      left  ]
+    - [ three,   1,       one,      1,      left  ]
+
+# -------------------------------------------------

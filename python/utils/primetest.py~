@@ -1,0 +1,5 @@
+def isPrime(p):
+    """
+    Will return true if p is prime or a Carmichael number.
+    """
+    return (2**(p-1))%p == 1

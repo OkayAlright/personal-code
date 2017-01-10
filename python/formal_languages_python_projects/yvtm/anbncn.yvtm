@@ -1,0 +1,56 @@
+tape: 'aaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbcccccccccccccccccccc'
+start: markLeft
+blank: _
+accept: [allEqual]
+reject: [unequal]
+machine:
+    - [ "markLeft",    "a",       "markLeft",       "a",      "left"  ] #if a, move left
+    - [ "markLeft",    "b",       "unequal",        "b",      "left"  ] # no a but b, reject
+    - [ "markLeft",    "c",       "unequal",        "c",      "left"  ] # no a or b, but c so reject
+    - [ "markLeft",    "_",       "markRight",      "#",      "right" ] #found left end, mark it
+    
+    - [ "markRight",   "a",       "markRight",      "a",      "right" ]
+    - [ "markRight",   "b",       "markRight",      "b",      "right" ]
+    - [ "markRight",   "c",       "markRight",      "c",      "right" ]
+    - [ "markRight",   "_",       "Cstart",         "#",      "left" ]
+
+    - [ "Cstart",      "a",        "unequal",       "a",      "left"]
+    - [ "Cstart",      "c",        "Bupper",        "C",      "left"]
+    - [ "Cstart",      "b",        "unequal",       "b",      "left"]
+    - [ "Cstart",      "#",        "allEqual",      "#",      "left"]
+    
+    - [ "Bupper",      "a",        "unequal",       "a",      "left"]
+    - [ "Bupper",      "b",        "Cupper",        "B",      "right"]
+    - [ "Bupper",      "B",        "Bupper",        "B",      "left"]
+    - [ "Bupper",      "c",        "Bupper",        "c",      "left"]
+    - [ "Bupper",      "C",        "Bupper",        "C",      "left"]
+
+    - [ "Cupper",      "B",        "Cupper",        "B",      "right"]
+    - [ "Cupper",      "c",        "Bupper",        "C",      "left" ]
+    - [ "Cupper",      "C",        "Cupper",        "C",      "right"]
+    - [ "Cupper",      "#",        "MoveLeft",      "#",      "left"]
+    
+    - [ "MoveLeft",    "a",        "Blowwer",       "A",      "right"]
+    - [ "MoveLeft",    "b",        "unequal",       "b",      "left"]
+    - [ "MoveLeft",    "B",        "MoveLeft",      "B",      "left"]
+    - [ "MoveLeft",    "c",        "unequal",       "c",      "left"]
+    - [ "MoveLeft",    "C",        "MoveLeft",      "C",      "left"]
+    - [ "MoveLeft",    "#",        "StartA",        "#",      "right"]
+    
+    - [ "Blowwer",     "A",        "Blowwer",       "A",      "right"]
+    - [ "Blowwer",     "b",        "Blowwer",       "b",      "right"]
+    - [ "Blowwer",     "B",        "Aupper",        "b",      "left"]
+    - [ "Blowwer",     "C",        "unequal",       "C",      "left"]
+  
+    - [ "Aupper",      "a",        "Blowwer",       "A",      "right"]
+    - [ "Aupper",      "A",        "Aupper",        "A",      "left"]
+    - [ "Aupper",      "b",        "Aupper",        "b",      "left"]
+    - [ "Aupper",      "#",        "verify",        "#",      "right"]
+    
+    - ["verify",       "A",        "verify",        "A",      "right"]
+    - ["verify",       "a",        "unequal",       "a",      "right"]
+    - ["verify",       "b",        "verify",        "b",      "right"]
+    - ["verify",       "B",        "unequal",       "B",      "right"]
+    - ["verify",       "C",        "verify",        "C",      "right"]
+    - ["verify",       "c",        "unequal",       "c",      "right"]
+    - ["verify",       "#",        "allEqual",      "#",      "left"]

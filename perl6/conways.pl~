@@ -1,0 +1,16 @@
+my $HEIGHT = 10;
+my $WIDTH = 10;
+my @board = (loop { (loop {0})[0..10]})[0..10];
+
+sub main(){
+    my $living = True;
+    while(living){
+        resolve_board;
+        clean_board;
+    }
+}
+
+sub resolve_board(){
+    loop(my $x = 0; $x <= WIDTH; $x++){
+        loop(my @y = 0; @y <= HEIGHT; @y++){
+            
